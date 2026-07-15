@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MONOS AI — Autonomous Intelligence on Robinhood Chain</title>
+  <meta name="description" content="Monos AI is a decentralized autonomous intelligence network on Robinhood Chain. AI agents that think, act, and earn on-chain." />
+  <meta name="author" content="Monos AI" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MONOS AI — Autonomous Intelligence on Robinhood Chain" />
+  <meta name="twitter:description" content="Decentralized AI agents that think, act, and earn on Robinhood Chain." />
+  <meta property="og:title" content="MONOS AI" />
+  <meta property="og:description" content="The autonomous intelligence layer on Robinhood Chain." />
+  <meta property="og:type" content="website" />
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #05080A;
+      --bg-panel: #0B0F12;
+      --accent: #00C805;
+      --accent2: #00FF41;
+      --accent-dim: rgba(0,200,5,0.12);
+      --accent-glow: rgba(0,200,5,0.35);
+      --white: #FFFFFF;
+      --white60: rgba(255,255,255,0.6);
+      --white40: rgba(255,255,255,0.4);
+      --white20: rgba(255,255,255,0.2);
+      --white10: rgba(255,255,255,0.1);
+      --white05: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.08);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ══ CORNER FLAMES (like veilhood) ══ */
+    .corner-flames {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    /* Bottom-left flame cluster */
+    .flame { position: absolute; border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%; filter: blur(1px); }
+
+    .flame-bl-1 {
+      bottom: -60px; left: -60px;
+      width: 280px; height: 380px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,200,5,0.18) 0%, rgba(0,200,5,0.06) 50%, transparent 80%);
+      animation: flicker1 3.5s ease-in-out infinite alternate;
+    }
+    .flame-bl-2 {
+      bottom: -40px; left: 40px;
+      width: 180px; height: 280px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,255,65,0.14) 0%, rgba(0,200,5,0.04) 60%, transparent 85%);
+      animation: flicker2 2.8s ease-in-out infinite alternate;
+    }
+    .flame-bl-3 {
+      bottom: -20px; left: -20px;
+      width: 120px; height: 200px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,255,65,0.22) 0%, transparent 70%);
+      animation: flicker3 2.2s ease-in-out infinite alternate;
+    }
+    /* Bottom-right flame cluster */
+    .flame-br-1 {
+      bottom: -60px; right: -60px;
+      width: 280px; height: 380px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,200,5,0.18) 0%, rgba(0,200,5,0.06) 50%, transparent 80%);
+      animation: flicker2 3.8s ease-in-out infinite alternate;
+    }
+    .flame-br-2 {
+      bottom: -40px; right: 40px;
+      width: 180px; height: 280px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,255,65,0.12) 0%, rgba(0,200,5,0.04) 60%, transparent 85%);
+      animation: flicker1 3s ease-in-out infinite alternate;
+    }
+    .flame-br-3 {
+      bottom: -20px; right: -20px;
+      width: 120px; height: 200px;
+      background: radial-gradient(ellipse at 50% 100%, rgba(0,255,65,0.2) 0%, transparent 70%);
+      animation: flicker3 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes flicker1 {
+      0%   { transform: scaleX(1)   scaleY(1)    translateY(0); opacity: 0.9; }
+      100% { transform: scaleX(1.1) scaleY(1.05) translateY(-12px); opacity: 1; }
+    }
+    @keyframes flicker2 {
+      0%   { transform: scaleX(0.95) scaleY(1)    translateY(0); opacity: 0.7; }
+      100% { transform: scaleX(1.05) scaleY(1.08) translateY(-8px); opacity: 1; }
+    }
+    @keyframes flicker3 {
+      0%   { transform: scaleX(1)   scaleY(0.95) translateY(0);   opacity: 0.8; }
+      100% { transform: scaleX(1.08) scaleY(1.1) translateY(-16px); opacity: 1; }
+    }
+
+    /* ══ GRID RAIL LINES ══ */
+    .rail-lines {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+    .rail-lines::before, .rail-lines::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0; width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(0,200,5,0.07) 30%, rgba(0,200,5,0.07) 70%, transparent);
+    }
+    .rail-lines::before { left: max(24px, calc(50% - 680px)); }
+    .rail-lines::after  { right: max(24px, calc(50% - 680px)); }
+
+    /* ══ HERO GLOW ══ */
+    .hero-glow {
+      position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+      width: 1000px; height: 650px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,200,5,0.13) 0%, rgba(0,200,5,0.04) 45%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ══ LAYOUT ══ */
+    .container { max-width: 1360px; margin: 0 auto; padding: 0 24px; }
+
+    /* ══ HEADER ══ */
+    header {
+      position: fixed; inset-inline: 0; top: 0; z-index: 100;
+      background: rgba(5,8,10,0.82); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--white);
+      font-family: var(--font-display); font-weight: 700; font-size: 17px;
+      letter-spacing: -0.3px;
+    }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #000;
+      font-family: var(--font-display);
+      box-shadow: 0 0 24px rgba(0,200,5,0.4);
+    }
+    .nav-chain-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      border: 1px solid rgba(0,200,5,0.25);
+      background: rgba(0,200,5,0.06);
+      padding: 3px 10px; font-size: 10px; font-family: var(--font-mono);
+      color: var(--accent); letter-spacing: 0.08em;
+    }
+    nav.desktop-nav { display: flex; align-items: center; gap: 28px; }
+    nav.desktop-nav a {
+      text-decoration: none; color: var(--white60); font-size: 14px;
+      transition: color 0.2s;
+    }
+    nav.desktop-nav a:hover { color: var(--white); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid rgba(0,200,5,0.3); color: var(--accent);
+      background: transparent; padding: 8px 16px;
+      font-size: 11px; font-family: var(--font-mono);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-outline:hover { background: rgba(0,200,5,0.08); border-color: rgba(0,200,5,0.6); }
+
+    .btn-accent {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #000;
+      padding: 9px 20px; font-size: 13px; font-weight: 700;
+      font-family: var(--font-display); text-decoration: none;
+      border: none; cursor: pointer; transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .btn-accent:hover { opacity: 0.9; box-shadow: 0 0 32px rgba(0,200,5,0.4); }
+
+    /* ══ FRAME CORNERS (like veilhood) ══ */
+    .frame { position: relative; }
+    .frame::before, .frame::after, .frame .dot-bl, .frame .dot-br {
+      content: ''; position: absolute; width: 8px; height: 8px;
+      border-color: rgba(0,200,5,0.6); border-style: solid;
+    }
+    .frame::before  { top:-1px; left:-1px;   border-width: 1px 0 0 1px; }
+    .frame::after   { top:-1px; right:-1px;  border-width: 1px 1px 0 0; }
+    .frame .dot-bl  { bottom:-1px; left:-1px;  border-width: 0 0 1px 1px; }
+    .frame .dot-br  { bottom:-1px; right:-1px; border-width: 0 1px 1px 0; }
+
+    /* ══ HERO ══ */
+    .hero { position: relative; padding-top: 110px; padding-bottom: 120px; overflow: hidden; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); background: rgba(0,0,0,0.45);
+      padding: 6px 14px; font-size: 11px; font-family: var(--font-mono);
+      color: var(--white60); letter-spacing: 0.05em; margin-bottom: 28px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    .hero-content { text-align: center; position: relative; z-index: 1; }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 7vw, 78px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -1.5px; margin-bottom: 24px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .italic-dim { font-style: italic; color: var(--white40); -webkit-text-fill-color: var(--white40); }
+
+    .hero-sub {
+      font-size: 16px; color: var(--white60); max-width: 620px;
+      margin: 0 auto 36px; line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: 12px; margin-bottom: 24px;
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--white20); background: rgba(0,0,0,0.3);
+      color: var(--white60); padding: 10px 22px; font-size: 14px;
+      text-decoration: none; backdrop-filter: blur(6px);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--white40); color: var(--white); }
+
+    .ca-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); background: rgba(0,0,0,0.4);
+      padding: 6px 14px; font-family: var(--font-mono); font-size: 11px;
+      color: var(--white40); cursor: pointer;
+      transition: border-color 0.2s, color 0.2s; backdrop-filter: blur(6px);
+    }
+    .ca-badge:hover { border-color: rgba(0,200,5,0.3); color: var(--accent); }
+
+    /* ══ TICKER ══ */
+    .ticker-wrap {
+      overflow: hidden; background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid var(--border); padding: 8px 0;
+    }
+    .ticker-track {
+      display: flex; gap: 48px; white-space: nowrap;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-track span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.07em; color: var(--white40); }
+    .ticker-track span.acc { color: var(--accent); }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ══ STATS ══ */
+    .stats-strip {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: rgba(5,8,10,0.65); backdrop-filter: blur(8px);
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); }
+    @media(min-width:768px){ .stats-grid{ grid-template-columns: repeat(4,1fr); } }
+    .stat-item { padding: 28px 24px; border-right: 1px solid var(--border); }
+    .stat-item:last-child { border-right: none; }
+    .stat-label { font-family:var(--font-mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--white40); margin-bottom:10px; }
+    .stat-value {
+      font-family:var(--font-display); font-size: clamp(28px,4vw,40px);
+      font-weight:700; letter-spacing:-0.5px; color:var(--accent);
+      text-shadow: 0 0 28px rgba(0,200,5,0.45);
+    }
+    .stat-value.wh { color:var(--white); text-shadow:none; }
+
+    /* ══ SECTIONS ══ */
+    .section-inner { padding: 80px 0; }
+    @media(min-width:768px){ .section-inner{ padding:120px 0; } }
+    .section-tag { font-family:var(--font-mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--white40); margin-bottom:14px; }
+    h2 { font-family:var(--font-display); font-size:clamp(30px,5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-0.8px; }
+    .section-desc { margin-top:18px; max-width:640px; font-size:15px; color:var(--white60); line-height:1.75; }
+
+    /* ══ PROBLEM CARDS ══ */
+    .problem-grid { display:grid; grid-template-columns:1fr; border:1px solid var(--border); margin-top:52px; }
+    @media(min-width:768px){ .problem-grid{ grid-template-columns:repeat(3,1fr); } }
+    .problem-card {
+      padding:36px; border-right:1px solid var(--border); position:relative;
+      overflow:hidden; transition:background 0.3s;
+    }
+    .problem-card:last-child { border-right:none; }
+    .problem-card:hover { background: rgba(0,200,5,0.02); }
+    .problem-card::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(0,200,5,0.25),transparent);
+      opacity:0; transition:opacity 0.3s;
+    }
+    .problem-card:hover::after { opacity:1; }
+    .card-num {
+      font-family:var(--font-mono); font-size:10px; letter-spacing:0.2em;
+      color:var(--white40); display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:30px;
+    }
+    .problem-card h3 { font-family:var(--font-display); font-size:22px; font-weight:700; margin-bottom:10px; }
+    .problem-card p { font-size:14px; color:var(--white60); line-height:1.7; }
+
+    /* ══ STEP CARDS ══ */
+    .steps-grid { display:grid; gap:14px; margin-top:52px; }
+    @media(min-width:768px){ .steps-grid{ grid-template-columns:repeat(4,1fr); } }
+    .step-card {
+      background:var(--bg-panel); border:1px solid var(--border); padding:28px;
+      transition:border-color 0.2s;
+    }
+    .step-card:hover { border-color:rgba(0,200,5,0.3); }
+    .step-num { font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:0.15em; margin-bottom:14px; }
+    .step-card h3 { font-family:var(--font-display); font-size:17px; font-weight:600; margin-bottom:8px; }
+    .step-card p { font-size:13px; color:var(--white60); line-height:1.65; }
+
+    /* ══ PRODUCTS ══ */
+    .products-grid { display:grid; gap:14px; margin-top:52px; }
+    @media(min-width:768px){ .products-grid{ grid-template-columns:repeat(3,1fr); } }
+    .product-card {
+      background:var(--bg-panel); border:1px solid var(--border); padding:36px;
+      display:flex; flex-direction:column; transition:border-color 0.25s, transform 0.25s;
+      text-decoration:none; color:inherit;
+    }
+    .product-card:hover { border-color:rgba(0,200,5,0.35); transform:translateY(-3px); }
+    .product-icon { color:var(--accent); margin-bottom:28px; display:flex; align-items:center; justify-content:space-between; }
+    .product-card h3 { font-family:var(--font-display); font-size:23px; font-weight:700; margin-bottom:4px; }
+    .product-sub { font-family:var(--font-mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--white40); margin-bottom:14px; }
+    .product-card p { font-size:14px; color:var(--white60); line-height:1.7; flex:1; }
+    .product-cta {
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--white20); background:var(--white05);
+      padding:8px 16px; font-size:12px; color:var(--white);
+      margin-top:26px; text-decoration:none; transition:border-color 0.2s;
+    }
+    .product-cta:hover { border-color:rgba(0,200,5,0.4); color:var(--accent); }
+
+    /* ══ ROADMAP ══ */
+    .roadmap-grid { display:grid; gap:12px; margin-top:52px; }
+    @media(min-width:768px){ .roadmap-grid{ grid-template-columns:repeat(4,1fr); } }
+    .roadmap-card { border:1px solid var(--border); padding:28px; background:var(--bg-panel); position:relative; }
+    .roadmap-card.active {
+      border-color:rgba(0,200,5,0.45);
+      background: linear-gradient(135deg, rgba(0,200,5,0.05) 0%, transparent 100%);
+    }
+    .roadmap-card.active::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .roadmap-phase { font-family:var(--font-mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--white40); margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+    .phase-badge { padding:2px 8px; font-size:9px; letter-spacing:0.08em; border-radius:2px; font-family:var(--font-mono); }
+    .phase-badge.live { background:rgba(0,200,5,0.15); color:var(--accent); border:1px solid rgba(0,200,5,0.35); }
+    .phase-badge.soon { background:rgba(255,165,0,0.1); color:#FFA500; border:1px solid rgba(255,165,0,0.2); }
+    .phase-badge.future { background:var(--white05); color:var(--white40); border:1px solid var(--border); }
+    .roadmap-card h3 { font-family:var(--font-display); font-size:20px; font-weight:700; margin-bottom:14px; }
+    .roadmap-card ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .roadmap-card ul li { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--white60); }
+    .roadmap-card ul li::before { content:'→'; color:var(--accent); font-size:11px; margin-top:2px; flex-shrink:0; }
+
+    /* ══ ROBINHOOD SECTION ══ */
+    .rh-section {
+      background: linear-gradient(135deg, rgba(0,200,5,0.04) 0%, rgba(0,200,5,0.01) 100%);
+      border-top:1px solid rgba(0,200,5,0.12); border-bottom:1px solid rgba(0,200,5,0.12);
+    }
+    .rh-grid { display:grid; gap:12px; margin-top:40px; }
+    @media(min-width:768px){ .rh-grid{ grid-template-columns:repeat(3,1fr); } }
+    .rh-card {
+      border:1px solid rgba(0,200,5,0.15); background:rgba(0,200,5,0.03);
+      padding:28px; transition:border-color 0.2s;
+    }
+    .rh-card:hover { border-color:rgba(0,200,5,0.35); }
+    .rh-card h3 { font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:8px; }
+    .rh-card p { font-size:13px; color:var(--white60); line-height:1.65; }
+    .rh-icon { color:var(--accent); margin-bottom:16px; }
+
+    /* ══ JOIN ══ */
+    .join-section { padding: 100px 0; }
+    .join-inner { text-align:center; }
+    .join-inner h2 { margin-bottom:14px; }
+    .join-inner .section-desc { margin:0 auto 36px; text-align:center; }
+    .join-links { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; }
+
+    /* ══ FOOTER ══ */
+    footer { border-top:1px solid var(--border); padding:48px 0; }
+    .footer-inner { display:flex; flex-direction:column; gap:28px; }
+    @media(min-width:768px){ .footer-inner{ flex-direction:row; align-items:center; justify-content:space-between; } }
+    .footer-logo { display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:15px; text-decoration:none; color:var(--white); }
+    .footer-links { display:flex; flex-wrap:wrap; align-items:center; gap:20px; }
+    .footer-links a { text-decoration:none; font-size:13px; color:var(--white40); transition:color 0.2s; }
+    .footer-links a:hover { color:var(--white); }
+    .divider-v { width:1px; height:16px; background:var(--border); display:inline-block; }
+    .social-btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:34px; height:34px; border:1px solid var(--border); background:var(--white05);
+      color:var(--white60); text-decoration:none; transition:border-color 0.2s, color 0.2s;
+    }
+    .social-btn:hover { border-color:var(--accent); color:var(--white); }
+    .footer-copy { font-size:12px; color:var(--white40); }
+
+    /* ══ PILLS ══ */
+    .pill-row { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:20px; }
+    .pill { border:1px solid var(--border); background:var(--bg-panel); padding:5px 14px; font-family:var(--font-mono); font-size:11px; color:var(--white60); letter-spacing:0.05em; }
+    .pill.acc { border-color:rgba(0,200,5,0.3); color:var(--accent); background:rgba(0,200,5,0.05); }
+
+    /* ══ SHIMMER ══ */
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    .shimmer {
+      background:linear-gradient(90deg,var(--white) 0%,var(--accent) 40%,var(--accent2) 60%,var(--white) 100%);
+      background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; animation:shimmer 4s linear infinite;
+    }
+
+    /* ══ REVEAL ══ */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ══ TOAST ══ */
+    .copied-toast {
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+      background:var(--accent); color:#000; font-family:var(--font-mono); font-size:12px;
+      padding:8px 18px; opacity:0; pointer-events:none; transition:all 0.3s ease; z-index:999;
+    }
+    .copied-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ══ PIPELINE BAR ══ */
+    .pipeline {
+      margin-top:36px; border:1px solid rgba(0,200,5,0.2);
+      background:rgba(0,200,5,0.03); padding:20px 28px;
+      display:flex; flex-wrap:wrap; gap:20px; align-items:center;
+    }
+    .pipeline-step { text-align:center; }
+    .pipeline-step .ps-label { font-family:var(--font-mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--white40); margin-bottom:4px; }
+    .pipeline-step .ps-val { font-family:var(--font-mono); font-size:12px; color:var(--accent); }
+    .pipe-arrow { color:var(--white40); font-size:16px; flex-shrink:0; }
+
+    @media(max-width:1023px){ nav.desktop-nav{display:none} }
+    @media(max-width:640px){ .nav-chain-badge{display:none} }
+  </style>
+</head>
+<body>
+
+<!-- CORNER FLAMES like veilhood -->
+<div class="corner-flames" aria-hidden="true">
+  <div class="flame flame-bl-1"></div>
+  <div class="flame flame-bl-2"></div>
+  <div class="flame flame-bl-3"></div>
+  <div class="flame flame-br-1"></div>
+  <div class="flame flame-br-2"></div>
+  <div class="flame flame-br-3"></div>
+</div>
+
+<div class="rail-lines" aria-hidden="true"></div>
+<div id="copiedToast" class="copied-toast">Address copied!</div>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">
+        <div class="logo-mark">M</div>
+        <span>MONOS AI</span>
+        <span class="nav-chain-badge" style="margin-left:8px">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;box-shadow:0 0 6px var(--accent)"></span>
+          Robinhood Chain
+        </span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="#problem">Problem</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#products">Products</a>
+        <a href="#robinhood">Why RH Chain</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#community">Community</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://x.com/monos_ai" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          <iconify-icon icon="ri:twitter-x-fill" width="13"></iconify-icon>
+          @monos_ai
+        </a>
+        <a href="app.html" class="btn-accent" style="padding:8px 18px;font-size:13px">
+          Launch App
+          <iconify-icon icon="solar:arrow-right-linear" width="13"></iconify-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ TICKER ══ -->
+<div style="margin-top:64px" class="ticker-wrap">
+  <div class="ticker-track">
+    <span>MONOS AI</span><span class="acc">·</span>
+    <span>Robinhood Chain</span><span class="acc">·</span>
+    <span>AI-Native L2</span><span class="acc">·</span>
+    <span>Autonomous Agents On-Chain</span><span class="acc">·</span>
+    <span>@monos_ai</span><span class="acc">·</span>
+    <span>Permissionless · Ethereum-Compatible</span><span class="acc">·</span>
+    <span>MONOS AI</span><span class="acc">·</span>
+    <span>Robinhood Chain</span><span class="acc">·</span>
+    <span>AI-Native L2</span><span class="acc">·</span>
+    <span>Autonomous Agents On-Chain</span><span class="acc">·</span>
+    <span>@monos_ai</span><span class="acc">·</span>
+    <span>Permissionless · Ethereum-Compatible</span><span class="acc">·</span>
+    <span>MONOS AI</span><span class="acc">·</span>
+    <span>Robinhood Chain</span><span class="acc">·</span>
+    <span>AI-Native L2</span><span class="acc">·</span>
+    <span>Autonomous Agents On-Chain</span><span class="acc">·</span>
+    <span>@monos_ai</span><span class="acc">·</span>
+    <span>Permissionless · Ethereum-Compatible</span><span class="acc">·</span>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>Robinhood Chain · AI-Native L2 · Autonomous Agents · Verifiable On-Chain</span>
+      </div>
+
+      <h1>
+        AI that thinks.<br/>
+        <span class="gradient-text">Acts. Earns.</span><br/>
+        <span class="italic-dim">On Robinhood Chain.</span>
+      </h1>
+
+      <p class="hero-sub">
+        MONOS AI is a decentralized autonomous intelligence network built on Robinhood Chain — the AI-native, permissionless Layer 2. Deploy agents that execute on-chain, coordinate trustlessly, and generate value. No permission needed.
+      </p>
+
+      <div class="hero-actions">
+        <a href="app.html" class="btn-accent" style="padding:12px 26px;font-size:14px">
+          Deploy an Agent
+          <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+        </a>
+        <a href="https://x.com/monos_ai" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+          <iconify-icon icon="ri:twitter-x-fill" width="14"></iconify-icon>
+          Follow @monos_ai
+        </a>
+      </div>
+
+      <button class="ca-badge" onclick="copyCa()">
+        <span>CA : 0x4d0n053...coming soon</span>
+        <iconify-icon icon="solar:copy-linear" width="12"></iconify-icon>
+      </button>
+
+      <div class="pill-row">
+        <span class="pill acc">On Robinhood Chain</span>
+        <span class="pill">Ethereum-Compatible L2</span>
+        <span class="pill">Fully Autonomous</span>
+        <span class="pill">Zero Custody</span>
+        <span class="pill">Multi-Agent Network</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-label">Human oversight required</div>
+        <div class="stat-value">0%</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Robinhood Chain finality</div>
+        <div class="stat-value wh">&lt; 1s</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Addressable AI market</div>
+        <div class="stat-value wh">$1.8T+</div>
+      </div>
+      <div class="stat-item" style="border-right:none">
+        <div class="stat-label">Agentic economy projection</div>
+        <div class="stat-value wh">$5T</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROBLEM ══ -->
+<section id="problem">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="section-tag">/ The Problem</div>
+      <h2>AI is powerful. But it's still on a leash.</h2>
+      <p class="section-desc">Today's AI can't hold assets, execute transactions, or decide on its own. Every action requires a human gatekeeper. That's not intelligence — that's an expensive autocomplete with a permission slip.</p>
+
+      <div class="problem-grid frame">
+        <span class="dot-bl"></span><span class="dot-br"></span>
+        <div class="problem-card">
+          <div class="card-num">
+            <span>FAILURE 01</span>
+            <iconify-icon icon="solar:danger-triangle-linear" width="14" style="color:var(--accent)"></iconify-icon>
+          </div>
+          <h3>Centralized Control</h3>
+          <p>Every major AI system routes through a central authority. One policy change, one shutdown, and your agents go dark. Your automation is only as reliable as someone else's server.</p>
+        </div>
+        <div class="problem-card">
+          <div class="card-num">
+            <span>FAILURE 02</span>
+            <iconify-icon icon="solar:danger-triangle-linear" width="14" style="color:var(--accent)"></iconify-icon>
+          </div>
+          <h3>No Native Finance</h3>
+          <p>AI agents can't hold or move money natively. Every financial action needs a human middleman or custodial bridge. The agent can plan the trade — but can't execute it alone.</p>
+        </div>
+        <div class="problem-card" style="border-right:none">
+          <div class="card-num">
+            <span>FAILURE 03</span>
+            <iconify-icon icon="solar:danger-triangle-linear" width="14" style="color:var(--accent)"></iconify-icon>
+          </div>
+          <h3>Unverifiable Reasoning</h3>
+          <p>When an AI agent makes a decision, you have no way to verify why. No proof of reasoning, no audit trail. Just a black box with consequences you can't audit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ARCHITECTURE ══ -->
+<section id="architecture" style="background:linear-gradient(180deg,transparent,rgba(0,200,5,0.02) 50%,transparent)">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="section-tag">/ Architecture</div>
+      <h2>Autonomous. Verifiable. <span class="shimmer">Unstoppable.</span></h2>
+      <p class="section-desc">MONOS AI runs on a four-layer stack built directly on Robinhood Chain — from intent to on-chain execution, no human in the loop.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">LAYER 01</div>
+          <h3>Agent Runtime</h3>
+          <p>Spawn agents with goals, tools, and memory. They plan, reason, and loop until the task is complete — fully autonomous from the moment you deploy.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LAYER 02</div>
+          <h3>On-Chain Proof</h3>
+          <p>Every decision is committed on Robinhood Chain with a cryptographic proof. Anyone can verify what the agent did and why — immutably, forever.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LAYER 03</div>
+          <h3>Native Finance</h3>
+          <p>Agents hold their own wallets on Robinhood Chain. They swap, stake, pay fees, and earn rewards — no approval needed, no custodial bridge.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">LAYER 04</div>
+          <h3>Agent Coordination</h3>
+          <p>Agents hire other agents. A strategy agent delegates to a DeFi agent, which delegates to a cross-chain agent. Pure composability on RH Chain.</p>
+        </div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="ps-label">Intent</div>
+          <div class="ps-val">On-Device</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipeline-step">
+          <div class="ps-label">Reasoning</div>
+          <div class="ps-val">Agent Runtime</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipeline-step">
+          <div class="ps-label">Execution</div>
+          <div class="ps-val">Robinhood Chain</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipeline-step">
+          <div class="ps-label">Settlement</div>
+          <div class="ps-val">&lt; 1s Finality</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipeline-step">
+          <div class="ps-label">Proof</div>
+          <div class="ps-val">On-Chain Forever</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRODUCTS ══ -->
+<section id="products">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="section-tag">/ Products</div>
+      <h2>Three surfaces. <span class="shimmer">One intelligent network.</span></h2>
+
+      <div class="products-grid">
+        <a href="deploy.html" class="product-card">
+          <div class="product-icon">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;color:var(--white40)">§ 4.1</span>
+            <iconify-icon icon="solar:cpu-bolt-linear" width="20"></iconify-icon>
+          </div>
+          <h3>MONOS Deploy</h3>
+          <div class="product-sub">Agent Studio</div>
+          <p>Design, configure, and launch autonomous agents with a no-code studio or TypeScript SDK. Set goals and tools — the agent runs on Robinhood Chain natively.</p>
+          <span class="product-cta">
+            Open Studio <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon>
+          </span>
+        </a>
+
+        <a href="earn.html" class="product-card">
+          <div class="product-icon">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;color:var(--white40)">§ 4.2</span>
+            <iconify-icon icon="solar:chart-2-linear" width="20"></iconify-icon>
+          </div>
+          <h3>MONOS Earn</h3>
+          <div class="product-sub">Agent Marketplace</div>
+          <p>Publish agents and earn $MONOS every time they're used. Stake as collateral for higher-trust tasks and unlock passive revenue from the network.</p>
+          <span class="product-cta">
+            Browse Agents <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon>
+          </span>
+        </a>
+
+        <a href="verify.html" class="product-card">
+          <div class="product-icon">
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;color:var(--white40)">§ 4.3</span>
+            <iconify-icon icon="solar:shield-check-linear" width="20"></iconify-icon>
+          </div>
+          <h3>MONOS Verify</h3>
+          <div class="product-sub">Proof Explorer</div>
+          <p>Audit any agent's decision history on Robinhood Chain. Full on-chain trace of reasoning steps, tool calls, and outcomes. Verifiable AI you can actually trust.</p>
+          <span class="product-cta">
+            Open Explorer <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY ROBINHOOD CHAIN ══ -->
+<section id="robinhood" class="rh-section">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="section-tag">/ Why Robinhood Chain</div>
+      <h2>Built for the chain that's <span class="gradient-text">built for AI.</span></h2>
+      <p class="section-desc">Robinhood Chain is a permissionless, AI-native Ethereum Layer 2. Fast finality, real-world asset support, and a financial-grade infrastructure — exactly what autonomous agents need.</p>
+
+      <div class="rh-grid">
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:bolt-linear" width="22"></iconify-icon></div>
+          <h3>Sub-Second Finality</h3>
+          <p>Robinhood Chain settles in under 1 second. Agents can execute complex multi-step strategies without waiting — real-time on-chain intelligence.</p>
+        </div>
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:cpu-linear" width="22"></iconify-icon></div>
+          <h3>AI-Native L2</h3>
+          <p>The first L2 purpose-built for AI applications. Native support for agent execution, verifiable compute, and autonomous financial transactions.</p>
+        </div>
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:buildings-linear" width="22"></iconify-icon></div>
+          <h3>Real-World Assets</h3>
+          <p>Robinhood Chain supports tokenized stocks, ETFs, and RWAs. MONOS agents can trade, hold, and manage these assets fully on-chain, 24/7.</p>
+        </div>
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:shield-linear" width="22"></iconify-icon></div>
+          <h3>Ethereum Compatible</h3>
+          <p>Built on Arbitrum technology, Robinhood Chain is fully EVM-compatible. Any Ethereum tool, wallet, or contract works out of the box.</p>
+        </div>
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:dollar-minimalistic-linear" width="22"></iconify-icon></div>
+          <h3>Ultra-Low Fees</h3>
+          <p>Gas fees on Robinhood Chain are a fraction of mainnet. Agents can micro-transact thousands of times per day without draining their treasury.</p>
+        </div>
+        <div class="rh-card">
+          <div class="rh-icon"><iconify-icon icon="solar:global-linear" width="22"></iconify-icon></div>
+          <h3>Permissionless</h3>
+          <p>No gatekeepers, no whitelists. Anyone can deploy on Robinhood Chain. MONOS agents operate in a truly open, censorship-resistant environment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ROADMAP ══ -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-inner reveal">
+      <div class="section-tag">/ Roadmap</div>
+      <h2>From zero to autonomous.</h2>
+      <p class="section-desc">A focused execution path on Robinhood Chain — from launch to a fully permissionless intelligent economy.</p>
+
+      <div class="roadmap-grid">
+        <div class="roadmap-card active">
+          <div class="roadmap-phase"><span>Phase 01</span><span class="phase-badge live">Live</span></div>
+          <h3>Foundation</h3>
+          <ul>
+            <li>Website & community launch</li>
+            <li>Twitter @monos_ai live</li>
+            <li>Whitepaper published</li>
+            <li>Smart contract audit</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-phase"><span>Phase 02</span><span class="phase-badge soon">Soon</span></div>
+          <h3>Token Launch</h3>
+          <ul>
+            <li>$MONOS on Robinhood Chain</li>
+            <li>Initial DEX offering</li>
+            <li>Liquidity bootstrapping</li>
+            <li>Staking pools open</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-phase"><span>Phase 03</span><span class="phase-badge future">Q3 2025</span></div>
+          <h3>Agent Network</h3>
+          <ul>
+            <li>Agent runtime on RH Chain</li>
+            <li>MONOS Deploy beta</li>
+            <li>Agent marketplace opens</li>
+            <li>Developer SDK v1</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-phase"><span>Phase 04</span><span class="phase-badge future">Q4 2025</span></div>
+          <h3>Full Autonomy</h3>
+          <ul>
+            <li>MONOS Verify live</li>
+            <li>RWA agent trading</li>
+            <li>Governance DAO launch</li>
+            <li>Enterprise integrations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMMUNITY ══ -->
+<section id="community">
+  <div class="container">
+    <div class="join-inner reveal">
+      <div class="section-tag" style="display:flex;justify-content:center;margin-bottom:14px">/ Community</div>
+      <h2>The future of AI is<br/><span class="gradient-text">autonomous, on-chain, and open.</span></h2>
+      <p class="section-desc">Join the growing community building on Robinhood Chain. Follow us, join the conversation, and be early to the autonomous intelligence revolution.</p>
+      <div class="join-links">
+        <a href="https://x.com/monos_ai" target="_blank" rel="noopener noreferrer" class="btn-accent" style="padding:12px 26px">
+          <iconify-icon icon="ri:twitter-x-fill" width="14"></iconify-icon>
+          Follow @monos_ai
+        </a>
+        <a href="app.html" class="btn-ghost" style="padding:12px 24px">
+          <iconify-icon icon="solar:bell-linear" width="14"></iconify-icon>
+          Get Notified on Launch
+        </a>
+        <a href="https://t.me/monosai" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding:12px 24px">
+          <iconify-icon icon="mingcute:telegram-fill" width="14"></iconify-icon>
+          Join Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="index.html">
+        <div class="logo-mark" style="width:28px;height:28px;font-size:12px">M</div>
+        MONOS AI
+        <span style="font-family:var(--font-mono);font-size:10px;color:var(--white40);margin-left:4px">on Robinhood Chain</span>
+      </a>
+
+      <div class="footer-links">
+        <a href="#problem">Problem</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#products">Products</a>
+        <a href="#robinhood">RH Chain</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="whitepaper.html">Whitepaper</a>
+        <a href="docs.html">Docs</a>
+        <span class="divider-v"></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <a href="https://x.com/monos_ai" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter / X">
+            <iconify-icon icon="ri:twitter-x-fill" width="14"></iconify-icon>
+          </a>
+          <a href="https://t.me/monosai" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Telegram">
+            <iconify-icon icon="mingcute:telegram-fill" width="14"></iconify-icon>
+          </a>
+          <a href="https://github.com/monosai" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub">
+            <iconify-icon icon="ri:github-fill" width="14"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-copy">© 2025 Monos AI · Robinhood Chain</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function copyCa() {
+    navigator.clipboard.writeText('coming soon').catch(()=>{});
+    const t = document.getElementById('copiedToast');
+    t.classList.add('show');
+    setTimeout(()=> t.classList.remove('show'), 2000);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id || id === 'launch-app') return;
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
