@@ -4,7 +4,7 @@
 
 > AI agents that think, act, and earn — fully on-chain, no permission needed.
 
-🌐 **Live:** https://aimonos.xyz  
+🌐 **Live:** https://monosapp.xyz  
 🐦 **Twitter:** https://x.com/monos_ai  
 ⛓️ **Chain:** [Robinhood Chain](https://robinhood.com/us/en/chain/) — AI-Native Ethereum L2
 
